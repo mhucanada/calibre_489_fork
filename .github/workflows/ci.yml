@@ -4,7 +4,24 @@ permissions:
     contents: read # to fetch code (actions/checkout)
 
 jobs:
+    changes:
+      runs-on: ubuntu-latest
+      outputs:
+        src: ${{ steps.changes.outputs.src }}
+
+      steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            src:
+              - '!**/*.md'
+              
     test:
+        needs: changes
+        if: ${{ needs.changes.outputs.backend == 'true' }}
         name: Test on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         strategy:
@@ -38,6 +55,8 @@ jobs:
                   python setup/unix-ci.py test
 
     archtest:
+        needs: changes
+        if: ${{ needs.changes.outputs.backend == 'true' }}
         name: Test on Arch
         runs-on: ubuntu-latest
         container:
