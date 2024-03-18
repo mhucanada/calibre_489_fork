@@ -26,6 +26,7 @@ xpath_cache = OrderedDict()
 # Test that the string is not empty and does not contain whitespace
 is_non_whitespace = re.compile(r'^[^ \t\r\n\f]+$').match
 
+## comment i will remove
 
 def get_parsed_selector(raw):
     try:
