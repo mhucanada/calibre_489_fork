@@ -5,6 +5,7 @@ permissions:
 
 jobs:
     changes:
+      name: Skip Workflow Check
       runs-on: ubuntu-latest
       outputs:
         src: ${{ steps.changes.outputs.src }}
