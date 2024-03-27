@@ -19,6 +19,7 @@ jobs:
           filters: |
             src:
               - '!**/*.md'
+              - '!**/*.recipe'
               
     test:
         needs: changes
