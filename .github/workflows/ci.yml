@@ -8,22 +8,25 @@ jobs:
       name: Skip Workflow Check
       runs-on: ubuntu-latest
       outputs:
-        src: ${{ steps.changes.outputs.src }}
+        not-md: ${{ steps.changes.outputs.not-md }}
+        not-recipe: ${{ steps.changes.outputs.not-recipe }}
 
       steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: changes
         with:
+          predicate-quantifier: 'every'
           base: ${{ github.ref }}
           filters: |
-            src:
+            not-md:
               - '!**/*.md'
+            not-recipe:
               - '!**/*.recipe'
               
     test:
         needs: changes
-        if: ${{ needs.changes.outputs.src == 'true' }}
+        if: ${{ needs.changes.outputs.not-md == 'true' && needs.changes.outputs.not-recipe == 'true'}}
         name: Test on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         strategy:
@@ -58,7 +61,7 @@ jobs:
 
     archtest:
         needs: changes
-        if: ${{ needs.changes.outputs.backend == 'true' }}
+        if: ${{ needs.changes.outputs.not-md == 'true' && needs.changes.outputs.not-recipe == 'true'}}
         name: Test on Arch
         runs-on: ubuntu-latest
         container:
