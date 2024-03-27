@@ -18,7 +18,7 @@ def check_version_info(minver=(3, 8, 0)):
 
 
 check_version_info()
-
+#test 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import setup.commands as commands
