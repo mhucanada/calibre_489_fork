@@ -16,8 +16,7 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: changes
         with:
-          predicate-quantifier: 'every'
-          base: ${{ github.ref }}
+          base: HEAD
           filters: |
             not-md:
               - '!**/*.md'
